@@ -4,14 +4,15 @@
 #
 # Joe Nguyen | 29 Sep, 2015
 
-# Change working directory
-dirBase <- "/home/joe/Documents/01-coursera/02-finance"
-dirWorking <- "/01-tvm"
-setwd(paste0(dirBase, dirWorking))
 rm(list = ls())
 
+# Change working directory
+dirBase <- "/home/joe/Documents/01-coursera/02-finance"
+dirWorking <- "/01-tvm/r-code"
+setwd(paste0(dirBase, dirWorking))
+
 # Generic finance functions
-source("func_finance.R")
+source(paste0(dirBase, dirWorking, "/func_finance.R"))
 
 ## Question 9
 # (15 points) Jessica is in the market for a new car. She has narrowed her search down to 2 models. Model A costs $27,000 and Model B costs $18,000. With both cars she plans to pay cash and own them for 3 years before trading in for a new car. Her research indicates that the trade in value for Model A after 3 years is 52% of the initial purchase price, while the trade in value for Model B is 33%. Jessica has no emotional attachment to either model and wants to make a strictly financial decision. The interest rate is 7%. For simplicity assume that operating and maintenance costs for the models are identical every year. Which model is the better decision and how much "cheaper" is it than the alternative?

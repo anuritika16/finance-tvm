@@ -8,11 +8,12 @@ graphics.off()
 
 # Change working directory
 dirBase <- "/home/joe/Documents/01-coursera/02-finance"
-dirWorking <- "/01-tvm"
+dirWorking <- "/01-tvm/r-code"
 setwd(paste0(dirBase, dirWorking))
 
 # Generic finance functions
-source(paste0(dirBase, "/func_finance.R"))
+source(paste0(dirBase, dirWorking, "/func_finance.R"))
+
 
 
 ## 2.2 FV of Annuity: Example 1

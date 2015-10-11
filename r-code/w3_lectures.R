@@ -9,11 +9,11 @@ graphics.off()
 
 # Change working directory
 dirBase <- "/home/joe/Documents/01-coursera/02-finance"
-dirWorking <- "/01-tvm"
+dirWorking <- "/01-tvm/r-code"
 setwd(paste0(dirBase, dirWorking))
 
 # Generic finance functions
-source(paste0(dirBase, "/func_finance.R"))
+source(paste0(dirBase, dirWorking, "/func_finance.R"))
 
 cost <- 1000
 c <- c(800, 800, -500, 400, -200, 210, -200)

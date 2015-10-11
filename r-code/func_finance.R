@@ -247,5 +247,20 @@ IRR <- function(cost, cVec, rEst = 0.5) {
 }
 
 
+###################################
+## PLOT: NPV VS R ##
+###################################
+plot_npv_r <- function(r, npv, irr = 0) {
+    
+    library(ggplot2)
+    dfLine <- data.frame(r, npv)
+    dfIrr <- data.frame(irr, npv = 0)
 
+    g <- ggplot(environment = environment()) + 
+        geom_line(data = dfLine, aes(r, npv)) + 
+        geom_hline(yintercept = 0, lty = "dashed") +
+        geom_point(data = dfIrr, aes(irr, npv), color = "red", size = 5) + 
+        geom_text(data = dfIrr, aes(label = round(irr,3), irr*1.1, npv + 0.05*diff(range(npv)) ))
+    g
+}
 
