@@ -112,7 +112,7 @@ plot_npv_r(rVec, b.npv)
 ## Question 5
 # (5 points) All else equal, purchasing inventory on credit will increase the value of a firm's net working capital.
 #
-# TRUE; purchasing inventory increases working capital
+# FALSE; while purchasing inventory increases working capital, purchasing on credit does not because credit can be paid in future
 
 
 ## Question 6
@@ -151,6 +151,10 @@ c <- rev1 - cogs1 - sga - (ar1 - ar); c
 ## Question 7
 # (15 points) Silver Bear Golf (SBG) is a manufacturer of top quality golf clubs with a specialty of putters. Currently, each putter they sell brings in $250 of revenue at a cost of $160. This past year, they sold 1,100 putters and they expect this number to grow each year by 12.5% until this model becomes obselete after 15 more years. The foreman at the SBG factory recently brought to your attention a new technology that could lower the cost of production. This technology requires an upfront fixed investment of $162,000 and has the capacity to produce all the putters you want to sell per year at a unit cost of $142. There is no increased working capital need due to this new technology, and no value of the machine/technology after 15 years. What is the NPV of investing in the new technology? Ignore taxes and assume a discount rate of 10.0%. (Hint: Think incrementally; the difference between the world without and with this new technology! Also, ignoring taxes will be a big help if you think right. You are strongly encouraged to use a spreadsheet.)
 #
+# Assumptions:
+# 1) No inflation for revenue and costs
+# 2) 1100 putters sold in year 0; find cash flows for years 1 to 15; NPV at year 0
+#
 # Difference per period (year) with (b) and without (a) new technology
 rev <- 250
 a.cost <- 160
@@ -162,20 +166,59 @@ r <- 0.1
 
 b.cost0 <- 162e3
 
-# Determine cash flows difference over periods (don't discount r here)
-profitDiff <- rev - (b.cost - a.cost)
+# Determine cash flows difference over periods (don't discount r here; don't worry about rounding)
+profitDiff <- (a.cost - b.cost)
 cDiff <- rep(0, n)
-# for (i in 1:n) {
-#     cDiff[i] <- 
-# }
+for (i in 1:n) {
+    cDiff[i] <- profitDiff * FV(item.tot, item.growth, i)
+}
+
+NPV(b.cost0, cDiff, r)
 
 
+## Question 8
+# (15 points) Fresh off the excitement of the 2012 London Olympic Games, you decide that you want your firm to take advantage of the profits to be made for the 2016 games in Rio de Jeneiro. To do so you plan to open a factory in Brazil. After examining the idea, your CFO projects revenues next year (2013) to be $15 million and costs to be $7 million. Both of these are expected to grow at a rate of 22.0% per year as the excitement for the games builds. Your firm faces a 35% tax rate, a 13.5% discount rate and you can depreciate your new investment using the straight line method over the four years leading up to the games, at which point the value of the venture moving forward will be $7 million. This $7 million is the after-tax terminal value that is in year 4 (that is, 2016) dollars and is the PV of all cash flows year 5 and beyond. The capital expenditure of this project is $11 million. What is the NPV of the project? Assume that you have no significant working capital costs.
+#
+# CASH FLOWS FROM PROJECT:
+# +revenues - costs of good sold - admin costs - depreciations = operating profits;
+# operating profits - cash taxes (on operating profits) = net operating profits after tax;
+# net operating profits + depreciation - capex - increases in working capital (acc rec - acc payables) =
+# cash flows from project
+#
+prj.rev <- 15e6
+prj.cost <- 7e6
+prj.r <- 0.22
+
+tax.r <- 0.35
+r <- 0.135
+n <- 4
+
+termVal <- 7e6
+capex <- 11e6
+
+# Depreciation (straight line method over the four years)
+deprec <- capex / n
+
+# Periodic cash flows (in period $ values)
+cVec <- rep(0,n)
+
+for (i in 1:4) {
+    # Operating profit = revenue - cost - depreciation
+    operProfit <- FV(prj.rev, prj.r, i-1) - FV(prj.cost, prj.r, i-1) - deprec
+    
+    # Net operating profit after tax
+    nopat <- (1 - tax.r) * operProfit
+    
+    # Cash flow
+    cVec[i] <- nopat + deprec
+}
+
+# NPV
+NPV(capex, cVec, r) + PV(termVal, r, n)
 
 
-
-
-
-
+## Question 9
+# (15 points) Walmart is considering opening a small experimental store in New York City. A store is expected to have a long economic life, but the valuation horizon is 18 years. The store in New York is likely to generate revenues of $39M in the first year and then it grows at 6.5%. But the costs of running the business are high because the margins on all the products sold are low. (It is a volume business!) The cost of goods sold is $10M in year 1 and it is expected to grow at 3.0% per year thereafter. Selling and administration costs are likely to be $0.8M every year as it is a small store. The tax rate is 35%. Walmart is so good at managing its stores that working capital increases can be assumed to be negligible. But since New York City is an expensive place, Walmart will have to invest $225M in purchasing a building (with land) even though it is a much smaller property than a usual Walmart store. The good news is that this outlay can be straight line depreciated over 18 years. Also, Walmart has estimated that the after-tax terminal value in year 18 dollars is $75M. This value is the present value of all cash flows in year 19 and beyond. What is the NPV of opening this new store if the appropriate discount rate is 6.0%? (Again, all cash flows except initial investments happen at the end of the year. You are strongly encouraged to use a spreadsheet.)
 
 
 
