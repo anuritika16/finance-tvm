@@ -250,17 +250,34 @@ IRR <- function(cost, cVec, rEst = 0.5) {
 ###################################
 ## PLOT: NPV VS R ##
 ###################################
-plot_npv_r <- function(r, npv, irr = 0) {
+# INPUTS:
+# newplot   flag for new plot or overlay on existing plot
+#
+plot_npv_r <- function(r, npv, irr = 0, color = 1, newplot = TRUE) {
     
-    library(ggplot2)
-    dfLine <- data.frame(r, npv)
-    dfIrr <- data.frame(irr, npv = 0)
-
-    g <- ggplot(environment = environment()) + 
-        geom_line(data = dfLine, aes(r, npv)) + 
-        geom_hline(yintercept = 0, lty = "dashed") +
-        geom_point(data = dfIrr, aes(irr, npv), color = "red", size = 5) + 
-        geom_text(data = dfIrr, aes(label = round(irr,3), irr*1.1, npv + 0.05*diff(range(npv)) ))
-    g
+    # Use base plotting system because ggplot2 can't overlay plots from different function calls
+    if (newplot) {
+        plot(r, npv, type = "l", lwd = 2, col = color,
+             main = "NPV vs. Interest rate (r)",
+             xlab = "Interest rate (dec)",
+             ylab = "NPV ($)")
+        abline(h = 0, lty = 2)
+        grid()
+    } else {
+        points(r, npv, type = "l", lwd = 2, col = color)
+    }
+    points(irr, 0, pch = 19, col = "red")
+    
+    
+#     library(ggplot2)
+#     dfLine <- data.frame(r, npv)
+#     dfIrr <- data.frame(irr, npv = 0)
+# 
+#     g <- ggplot(environment = environment()) + 
+#         geom_line(data = dfLine, aes(r, npv)) + 
+#         geom_hline(yintercept = 0, lty = "dashed") +
+#         geom_point(data = dfIrr, aes(irr, npv), color = "red", size = 5) + 
+#         geom_text(data = dfIrr, aes(label = round(irr,3), irr*1.1, npv + 0.05*diff(range(npv)) ))
+#     g
 }
 

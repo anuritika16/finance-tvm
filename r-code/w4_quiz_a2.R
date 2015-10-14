@@ -1,8 +1,8 @@
 # Coursera Finance Specialisation (U Michigan)
 # Week 4 -- Decision Making and Cash Flows
-# Quiz
+# Quiz - attempt 2
 #
-# Joe Nguyen | 11 Oct, 2015
+# Joe Nguyen | 14 Oct, 2015
 
 rm(list = ls())
 # graphics.off()
@@ -17,10 +17,12 @@ setwd(paste0(dirBase, dirWorking))
 source(paste0(dirBase, dirWorking, "/func_finance.R"))
 
 
-## Question 1 -- INCORRECT
+## Question 1
 # (5 points) The NPV rule is always preferred when making a decision between two mutually exclusive projects.
 #
 # FALSE; IRR + r should be considered. Also, annuity ($/period) can be considered if the two projects have different time durations.
+#
+# change to TRUE, since 1) annuity ($/period) is derived from NPV, and 2) IRR + r does not account for projects with different timelines.
 
 
 ## Question 2
@@ -65,13 +67,13 @@ for (i in 1:n) {
 NPV(cost, cVec + admin.costVec + rev.valVec + savingVec, r)
 
 
-## Question 3 -- INCORRECT
-# (5 points) Alpha Inc. has the following two projects that it is considering, and it wants to choose one. Project A has an investment outlay/expense today of $840, and its cash flows over the next three years are $380, $510, and $550. Project B has an outlay of $1,680, and cash flows of $800, $990, and $1,200. Which project should Alpha choose? (You can assume no taxes.)
-a.cost <- 840
-a.cVec <- c(380,510,550)
+## Question 3
+# (5 points) Alpha Inc. has the following two projects that it is considering, and it wants to choose one. Project A has an investment outlay/expense today of $1,010, and its cash flows over the next three years are $480, $640, and $740. Project B has an outlay of $2,020, and cash flows of $950, $1,260, and $1,320. Which project should Alpha choose? (You can assume no taxes.)
+a.cost <- 1010
+a.cVec <- c(480,640,740)
 
-b.cost <- 1680
-b.cVec <- c(800,990,1200)
+b.cost <- 2020
+b.cVec <- c(950,1260,1320)
 
 a.irr <- IRR(a.cost, a.cVec); a.irr
 b.irr <- IRR(b.cost, b.cVec); b.irr
@@ -87,6 +89,8 @@ plot_npv_r(rVec, a.npv, a.irr)
 plot_npv_r(rVec, b.npv, b.irr, color = 2, newplot = FALSE)
 
 # Choose project B since it always gives higher NPV for r < 32.6% (larger IRR - IRR of b)
+#
+# change to "Cannot make a choice based on information" because we don't know value of r.
 
 
 ## Question 4
@@ -111,6 +115,8 @@ b.npv <- NPV(b.cost, b.cVec, rVec)
 
 plot_npv_r(rVec, a.npv, a.irr)
 plot_npv_r(rVec, b.npv, b.irr, color = 2, newplot = FALSE)
+
+# Choose project A as a.npv > b.npv for r = 3.00%
 
 
 ## Question 5
@@ -153,22 +159,22 @@ c <- rev1 - cogs1 - sga - (ar1 - ar); c
 
 
 ## Question 7
-# (15 points) Silver Bear Golf (SBG) is a manufacturer of top quality golf clubs with a specialty of putters. Currently, each putter they sell brings in $250 of revenue at a cost of $160. This past year, they sold 1,100 putters and they expect this number to grow each year by 12.5% until this model becomes obselete after 15 more years. The foreman at the SBG factory recently brought to your attention a new technology that could lower the cost of production. This technology requires an upfront fixed investment of $162,000 and has the capacity to produce all the putters you want to sell per year at a unit cost of $142. There is no increased working capital need due to this new technology, and no value of the machine/technology after 15 years. What is the NPV of investing in the new technology? Ignore taxes and assume a discount rate of 10.0%. (Hint: Think incrementally; the difference between the world without and with this new technology! Also, ignoring taxes will be a big help if you think right. You are strongly encouraged to use a spreadsheet.)
+# (15 points) Silver Bear Golf (SBG) is a manufacturer of top quality golf clubs with a specialty of putters. Currently, each putter they sell brings in $240 of revenue at a cost of $160. This past year, they sold 1,300 putters and they expect this number to grow each year by 10.5% until this model becomes obselete after 9 more years. The foreman at the SBG factory recently brought to your attention a new technology that could lower the cost of production. This technology requires an upfront fixed investment of $115,000 and has the capacity to produce all the putters you want to sell per year at a unit cost of $114. There is no increased working capital need due to this new technology, and no value of the machine/technology after 9 years. What is the NPV of investing in the new technology? Ignore taxes and assume a discount rate of 9.5%. (Hint: Think incrementally; the difference between the world without and with this new technology! Also, ignoring taxes will be a big help if you think right. You are strongly encouraged to use a spreadsheet.)
 #
 # Assumptions:
 # 1) No inflation for revenue and costs
 # 2) 1100 putters sold in year 0; find cash flows for years 1 to 15; NPV at year 0
 #
 # Difference per period (year) with (b) and without (a) new technology
-rev <- 250
+rev <- 240
 a.cost <- 160
-b.cost <- 142
-item.tot <- 1100
-item.growth <- 0.125
-n <- 15
-r <- 0.1
+b.cost <- 114
+item.tot <- 1300
+item.growth <- 0.105
+n <- 9
+r <- 0.095
 
-b.cost0 <- 162e3
+b.cost0 <- 115e3
 
 # Determine cash flows difference over periods (don't discount r here; don't worry about rounding)
 profitDiff <- (a.cost - b.cost)
@@ -181,7 +187,7 @@ NPV(b.cost0, cDiff, r)
 
 
 ## Question 8
-# (15 points) Fresh off the excitement of the 2012 London Olympic Games, you decide that you want your firm to take advantage of the profits to be made for the 2016 games in Rio de Jeneiro. To do so you plan to open a factory in Brazil. After examining the idea, your CFO projects revenues next year (2013) to be $15 million and costs to be $7 million. Both of these are expected to grow at a rate of 22.0% per year as the excitement for the games builds. Your firm faces a 35% tax rate, a 13.5% discount rate and you can depreciate your new investment using the straight line method over the four years leading up to the games, at which point the value of the venture moving forward will be $7 million. This $7 million is the after-tax terminal value that is in year 4 (that is, 2016) dollars and is the PV of all cash flows year 5 and beyond. The capital expenditure of this project is $11 million. What is the NPV of the project? Assume that you have no significant working capital costs.
+# (15 points) Fresh off the excitement of the 2012 London Olympic Games, you decide that you want your firm to take advantage of the profits to be made for the 2016 games in Rio de Jeneiro. To do so you plan to open a factory in Brazil. After examining the idea, your CFO projects revenues next year (2013) to be $16 million and costs to be $7 million. Both of these are expected to grow at a rate of 21.0% per year as the excitement for the games builds. Your firm faces a 35% tax rate, a 10.0% discount rate and you can depreciate your new investment using the straight line method over the four years leading up to the games, at which point the value of the venture moving forward will be $5 million. This $5 million is the after-tax terminal value that is in year 4 (that is, 2016) dollars and is the PV of all cash flows year 5 and beyond. The capital expenditure of this project is $11 million. What is the NPV of the project? Assume that you have no significant working capital costs.
 #
 # CASH FLOWS FROM PROJECT:
 # +revenues - costs of good sold - admin costs - depreciations = operating profits;
@@ -189,15 +195,15 @@ NPV(b.cost0, cDiff, r)
 # net operating profits + depreciation - capex - increases in working capital (acc rec - acc payables) =
 # cash flows from project
 #
-prj.rev <- 15e6
+prj.rev <- 16e6
 prj.cost <- 7e6
-prj.r <- 0.22
+prj.r <- 0.21
 
 tax.r <- 0.35
-r <- 0.135
+r <- 0.1
 n <- 4
 
-termVal <- 7e6
+termVal <- 5e6
 capex <- 11e6
 
 # Depreciation (straight line method over the four years)
@@ -270,13 +276,4 @@ annuity_c(0, h.npv, r, h.n)
 
 l.npv <- NPV(l.capex, rep(-l.mtCost, l.n), r)
 annuity_c(0, l.npv, r, l.n)
-
-
-
-
-
-
-
-
-
 
