@@ -30,7 +30,7 @@ r <- 0.07
 n <- 3
 
 # Cash interest
-interest <- fv(cash, r, n)
+interest <- FV(cash, r, n)
 b.return <- b.fv.3 + interest
 
 # Determine a or b returns more cash in 3 years
@@ -56,14 +56,14 @@ n2 <- n1 + tuition.n
 
 # Compute tuition fees over 4 years AND compute corresponding PV for each year's fee
 tuition.cost <- rep(0, tuition.n)
-tuition.cost[1] <- fv(tuition.now, tuition.r, n1)
+tuition.cost[1] <- FV(tuition.now, tuition.r, n1)
 
 portofolio.pv <- rep(0, tuition.n)
-portofolio.pv[1] <- pv(tuition.cost[1], portfolio.r, n1)
+portofolio.pv[1] <- PV(tuition.cost[1], portfolio.r, n1)
 
 for (i in 2 : tuition.n) {
-    tuition.cost[i] <- fv(tuition.cost[i-1], tuition.r, 1)
-    portofolio.pv[i] <- pv(tuition.cost[i], portfolio.r, n1+i-1)
+    tuition.cost[i] <- FV(tuition.cost[i-1], tuition.r, 1)
+    portofolio.pv[i] <- PV(tuition.cost[i], portfolio.r, n1+i-1)
 }
 tuition.cost.total <- sum(tuition.cost)
 tuition.cost.total
@@ -71,4 +71,28 @@ tuition.cost.total
 # Compute PV Andrea has to save now given her portfolio
 portfolio.pv.total <- sum(portofolio.pv)
 cat("Andrea has to save $", portfolio.pv.total, " in her portfolio now.", sep = "")
+
+
+## Question 10
+# (15 points) College tuition has been rising at a rate of 5% per year. Currently the average tuition of a state college is $8,500 per year. Andrea's son Trevor will begin college in 9 years. Andrea's portfolio is making 8% annually. How much does Andrea need to have set aside today/now to pay for 4 years of college for Trevor? (Note: Tuition will continue to change annually and Andrea's portfolio balance will continue to accrue interest while Trevor is in school. Also, tuition is due at the beginning of each year.)
+college.r <- 0.05
+college.c0 <- 8500
+
+college.n <- 4
+college.y0 <- 9
+college.y1 <- college.y0 + college.n
+
+portfolio.r <- 0.08
+
+# Starting college fee accounting for rise in fees
+college.c0 <- FV(college.c0, college.r, college.y0); college.c0
+
+# Total college fees PV at start of college (fee paid at START (not end) of year)
+college.fees <- college.c0 + annuity_pv(college.c0 * (1+college.r), college.r, college.n-1); college.fees
+
+# Total college fees PV now (that Andrea needs)
+college.fees0 <- PV(college.fees, portfolio.r, college.y0); college.fees0
+
+
+
 

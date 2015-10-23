@@ -14,7 +14,7 @@ rm(list = ls())
 ##################
 weeksPerYear <- 52
 monthsPerYear <- 12
-
+fortsPerYear <- 26
 ##################
 
 
