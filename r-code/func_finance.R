@@ -13,8 +13,9 @@ rm(list = ls())
 ## CONSTANTS
 ##################
 weeksPerYear <- 52
-monthsPerYear <- 12
 fortsPerYear <- 26
+monthsPerYear <- 12
+halfsPerYear <- 2
 ##################
 
 
@@ -280,4 +281,27 @@ plot_npv_r <- function(r, npv, irr = 0, color = 1, newplot = TRUE) {
 #         geom_text(data = dfIrr, aes(label = round(irr,3), irr*1.1, npv + 0.05*diff(range(npv)) ))
 #     g
 }
+
+
+
+##################################
+##     M2: Risk and Return     ##
+##################################
+# 28 Nov, 2015
+
+#############################
+## Yield to Maturity (YTM) ##
+#############################
+# YTM is the return built into the pricing of a bond. YTM is the discount rate r in the PV formula, where fv (future value) is the "face value" of the bond, and pv is the "current price"
+#
+# INPUTS:
+# fv  - face value
+# pv  - current price
+# n   - number of periods
+#
+# OUTPUT:
+# r  - discount rate (or YTM) (decimal)
+#
+YTM <- function(fv, pv, n) { (fv/pv)^(1/n) - 1 }
+
 
